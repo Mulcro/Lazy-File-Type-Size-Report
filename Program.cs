@@ -61,20 +61,21 @@ namespace FileTypeReport
         // Human readable byte size
         private static string FormatByteSize(long byteSize)
         {
-            string[] suffixes = { "B", "KB", "MB", "GB", "TB" };
-
+            // Full set of units, lowercase 'k' as requested
+            string[] suffixes = { "B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB" };
+        
             double size = byteSize;
-
             int i = 0;
-
-            while (size >= 1024 && i < suffixes.Length - 1)
+        
+            // Divide by 1000 until we're under 1000 or out of suffixes
+            while (size >= 1000 && i < suffixes.Length - 1)
             {
-                size /= 1024;
+                size /= 1000;
                 i++;
             }
-
+        
+            // Format with exactly two decimals
             return $"{size:F2} {suffixes[i]}";
-
         }
 
         // Create an HTML report file
